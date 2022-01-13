@@ -1,0 +1,8 @@
+cd desktop
+cd myproject
+django-admin startproject mysite
+pip show diango
+cd mysite
+python manage.py runserver
+http://127.0.0.1:8000/
+python manage.py startapp webapp

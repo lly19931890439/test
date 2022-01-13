@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      JavaScript | Sending JSON data to server.
+    </title>
+  </head>
+  
+  <body style="text-align:center;" id="body">
+    <h1 style="color:green;">
+      GeeksForGeeks
+    </h1>
+  
+    <p>
+        <!-- Making a text input -->
+        <input type="text" id="name" placeholder="Your name">
+        <input type="email" id="email" placeholder="Email">
+          
+        <!-- Button to send data -->
+        <button id='calculate'>Send JSON</button>
+  
+      <!-- For printing result from server -->
+      <p  class="result" style="color:green">
+        <input id='tao' type="text"  >
+      </p>
+      
+   </p>
+  
+  <!-- Include the JavaScript file -->
+  
+    <script type="text/javascript">
+      
+      function calculate() {
+            const xhttp = new XMLHttpRequest();
+            var data={
+                'name': document.getElementById('name').value,
+                'email': document.getElementById('email').value,
+            }
+            xhttp.onload = function(){
+                const obj = JSON.parse(this.responseText) ;
+                console.log( obj )
+                document.getElementById('tao').value = obj['name'] +obj['email'];
+            }
+            // xhttp.open('GET', 'data') ;
+            xhttp.open("POST", "caltao");
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify(data)) ;
+        }
+      
+        document.getElementById('calculate').onclick = calculate;
+    </script>
+  
+  </body>
+</html>
