@@ -20,7 +20,11 @@
     <script src="../static/js/v14.js" type="text/javascript"></script>
 
     <title>数据处理</title>
-    <style></style>
+    <style>
+		td {
+			vertical-align: top;
+		}
+	</style>
 	
 </head>
 <body>
@@ -31,15 +35,16 @@
                 <a id="fission">fission</a>
             </li>
             <li class="drop-down">
-                <a id="radial">radial plot</a>
-                <ul class="drop-down-content">
-                    <li><a id="ked">KDE</a></li>
-                    <li><a id="get">get ζ</a></li>
-                    <li><a id="ages">ages</a></li>
-                </ul>
+				<select id="control_left" onchange="ctr_left(this);">
+					<option id="radial" value="radial plot">radial plot</option>
+					<option id="ked" value="KDE">KDE</option>
+					<option id="get"value="get ζ">get ζ</option>
+					<option id="ages" value="ages">ages</option>
+				</select>
+               
             </li>
             <li class="drop-down">
-                <a href="#">option</a>
+                <a id="option">option</a>
                 <ul class="drop-down-content">
 {#                    <li><a href="#">选项1</a></li>#}
 {#                    <li><a href="#">选项2</a></li>#}
@@ -54,31 +59,23 @@
 {#        中间左边原数据#}
         <div class="left">
             <div class="left-top" id="left-top">
-{#               参数1#}
+{#               参数1 #}
                 <div class="center" id="zetaDiv" style="display: block;">
                     ζ:<input type="text" id="zetaVal" Value="350">
                     <span>±</span>
                     <span style="display: none;">, err[ζ]:</span>
                     <input type="text" id="zetaErr" Value="10">
                     <span>
-                        <span>
-                            yr cm<sup>2</sup>
-                        </span>
-                        <span style="display: none;">
-                            Myr μm<sup>2</sup>
-                        </span>
+                        yr cm<sup>2</sup>
                     </span>
-                    <span style="display: none;">%</span>
                     <div style="line-height:50%;"><br></div>
                 </div>
 {#               参数2#}
                 <div class="center" id="standAgeDiv" style="display: none;">
                     t: <input type="text" id="standAgeVal" Value="100">
                     <span>±</span>
-                    <span style="display: none;">, err[t]:</span>
                     <input type="text" id="standAgeErr" Value="1">
                     <span>Ma</span>
-                    <span style="display: none;">%</span>
                     <div style="line-height:50%;"><br></div>
                 </div>
 {#               参数3#}
@@ -86,19 +83,111 @@
                     ρ<sub>D</sub>:
                     <input type="text" id="rhoDval" Value="2500000">
                     <span>±</span>
-                    <span style="display: none;">, err[ρ<sub>D</sub>]:</span>
                     <input type="text" id="rhoDerr" Value="10000">
                     <span>1/cm<sup>2</sup></span>
-                    <span style="display: none;">%</span>
+                    <div style="line-height:50%;"><br></div>
+                </div>
+{#               参数4 #}
+                <div class="center" id="M_zetaDiv" style="display: none;">
+                    ζ:<input type="text" id="M_zetaVal" Value="9700">
+                    <span>±</span>
+                    <input type="text" id="zetaErr" Value="50">
+					<span>
+                        Myr μm<sup>2</sup>
+                    </span>
+                    <div style="line-height:50%;"><br></div>
+                </div>
+{#               参数5 #}
+                <div class="center" id="spot_size" style="display: none;">
+                    spot size:<input type="text" id="spot_size" Value="35">       
+					<span>μm</span>
                     <div style="line-height:50%;"><br></div>
                 </div>
             </div>
-            <div class="left-bottom" id="left-bottom">
+			<div class="left-bottom" id="left-bottom">
                 <div id="ss" class="sample-spreadsheets"></div>
             </div>
+           
         </div>
 {#        中间右边结果显示#}
         <div class="right">
+			<div id="parameter" style="display:none">
+<!--	1		Input errors-->
+				<p>&nbsp </p>
+				<div id="input_errors">
+					&nbsp;<span>Input errors:</span>
+					<select>
+					  <option class="translate" id="1se_abs" value="1">1se (abs)</option>
+					  <option class="translate" id="2se_abs" value="2">2se (abs)</option>
+					  <option class="translate" id="1se_rel" value="3">1se (%)</option>
+					  <option class="translate" id="2se_rel" value="4">2se (%)</option>
+					</select>
+				</div>
+<!--	2		Method-->
+				<p>&nbsp </p>
+				<div id="method">
+					&nbsp;<span>Method:</span>
+					<select id="control_method">
+					  <option class="translate" id="EDM" value="1">EDM</option>
+					  <option class="translate" id="ICP_zeta" value="2">ICP (ζ)</option>
+					  <option class="translate" id="ICP_absolute" value="3">ICP (absolute)</option>
+					</select>				
+				</div>
+<!--    3        Transformation-->
+				<p>&nbsp </p>
+				<div id="transformation">
+					&nbsp;<span>Transformation:</span>
+					<select>
+					  <option id="radial_log" value="log">logarithmic</option>
+					  <option id="radial_lin" value="linear">linear</option>
+					  <option id="radial_sqrt" value="sqrt">sqrt</option>
+					</select>
+				</div>
+<!--	4		Significant digits-->
+				<p>&nbsp </p>
+				<div id="significant_digits">
+					&nbsp;<span>Significant digits:</span>
+					<input type="text" id="sig" value="2">
+				</div>
+<!--	5		Mineral-->
+				<p>&nbsp </p>
+				<div id="mineral">
+					&nbsp;<span>Mineral:</span>
+					<select>
+					  <option class="translate" id="apatite" value="apatite">apatite</option>
+					  <option class="translate" id="zircon" value="zircon">zircon</option>
+					</select>
+				</div>
+<!--	6		Moredata-->
+				<p>&nbsp;</p>
+				<div id="moredata">
+					<table>
+						<tbody>
+						<tr><td>&nbsp;<span id="U238U235"><sup>238</sup>U/<sup>235</sup>U ratio:</span></td>
+							<td><input type="text" id="U238U235" value="137.818"> ±</td>
+							<td><input type="text" id="errU238U235" value="0.0225"></td>
+						</tr>
+						<tr><td>&nbsp;<span id="LambdaU238"><sup>238</sup>U decay constant:</span></td>
+							<td><input type="text" id="LambdaU238" value="0.000155125"> ±</td>
+							<td><input type="text" id="errLambdaU238" value="8.3e-8">Myr<sup>-1</sup></td>
+						</tr>
+						<tr><td>&nbsp;<span id="LambdaFission"><sup>238</sup>U fission decay constant:</span></td>
+							<td><input type="text" id="LambdaFission" value="8.5e-11"> ±</td>
+							<td><input type="text" id="errLambdaFission" value="1e-12">Myr<sup>-1</sup></td>
+						</tr>
+						<tr><td>&nbsp;<span id="etchfact">efficiency factor:</span></td>
+							<td><input type="text" id="etchfact" value="0.93"></td><td></td>
+						</tr>
+						<tr><td>&nbsp;<span id="tracklength">equivalent isotropic track length:</span></td>
+							<td><input type="text" id="tracklength" value="16.2"></td><td></td>
+						</tr>
+						<tr><td>&nbsp;<span id="mindens">mineral density:</span></td>
+							<td><input type="text" id="mindens" value="3.22"></td><td></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+            </div>
             <div id="output" class="result"></div>
         </div>
     </div>
@@ -135,9 +224,9 @@
             var data={
                 'zetaVal': document.getElementById('zetaVal').value,
                 'zetaErr': document.getElementById('zetaErr').value,
-				'standAgeVal': document.getElementById('standAgeVal').value,
-				'standAgeErr': document.getElementById('standAgeErr').value,
-				'rhoDval': document.getElementById('rhoDval').value,
+				'transformation': document.getElementById('standAgeVal').value,
+				'significant_digits': document.getElementById('standAgeErr').value,
+				'mineral': document.getElementById('rhoDval').value,
 				'rhoDerr': document.getElementById('rhoDerr').value,
             }
             xhttp.onload = function(){
@@ -153,7 +242,6 @@
         //document.getElementById('run').onclick = calculate;
 		
 		
-		
         function addElementImg(obj) {
             {#获取div元素#}
             var div = document.getElementById(obj);
@@ -165,24 +253,98 @@
             {#将新建的img元素加到div当中#}
             div.appendChild(img);
         }
-        $(document).ready(function() {
-            {#设置参数#}
-            $("#radial").click(function () {
-                $("#zetaDiv").css('display', 'block');
+		
+		function ctr_left(obj){
+			var value=$(obj).val();
+			if(value=="radial plot"){
+				$("#parameter").css('display', 'none');
+				$("#zetaDiv").css('display', 'block');
                 $("#standAgeDiv").css('display', 'none');
-            });
-            $("#ked").click(function () {
-                $("#zetaDiv").css('display', 'block');
+			}
+			if(value=="KDE"){
+				$("#parameter").css('display', 'none');
+				$("#zetaDiv").css('display', 'block');
                 $("#standAgeDiv").css('display', 'none');
-            });
-            $("#get").click(function () {
-                $("#zetaDiv").css('display', 'none');
+			}
+			if(value=="get ζ"){
+				$("#parameter").css('display', 'none');
+				$("#zetaDiv").css('display', 'none');
                 $("#standAgeDiv").css('display', 'block');
-            });
-            $("#ages").click(function () {
-                $("#zetaDiv").css('display', 'block');
+			}
+			if(value=="ages"){
+				$("#parameter").css('display', 'none');
+				$("#zetaDiv").css('display', 'block');
                 $("#standAgeDiv").css('display', 'none');
-            });
+			}
+		}
+		
+		function ctr_EDM(){
+			$("#zetaDiv").css('display', 'block');
+			$("#standAgeDiv").css('display', 'none');
+			$("#rhoDdiv").css('display', 'block');
+			$("#M_zetaDiv").css('display', 'none');
+			$("#spot_size").css('display', 'none');
+		}
+		function ctr_ICP_zeta(){
+			$("#zetaDiv").css('display', 'none');
+			$("#standAgeDiv").css('display', 'none');
+			$("#rhoDdiv").css('display', 'none');
+			$("#M_zetaDiv").css('display', 'block');
+			$("#spot_size").css('display', 'block');
+		}
+		function ctr_ICP_absolute(){
+			$("#zetaDiv").css('display', 'none');
+			$("#standAgeDiv").css('display', 'none');
+			$("#rhoDdiv").css('display', 'none');
+			$("#M_zetaDiv").css('display', 'none');
+			$("#spot_size").css('display', 'block');
+		}
+		
+		$(document).ready(function() {
+			$("#option").click(function () {
+				var myselect=document.getElementById("control_left");
+				var index=myselect.selectedIndex ; 
+				var option_value=myselect.options[index].value;
+
+				if(option_value=="radial plot"){
+					$("#parameter").css('display', 'block');
+					$("#input_errors").css('display', 'block');
+					$("#method").css('display', 'block');
+					$("#transformation").css('display', 'block');
+					$("#significant_digits").css('display', 'none');
+					$("#mineral").css('display', 'none');
+					$("#moredata").css('display', 'none');
+				}
+				if(option_value=="KDE"){
+					$("#parameter").css('display', 'block');
+					$("#input_errors").css('display', 'block');
+					$("#method").css('display', 'block');
+					$("#transformation").css('display', 'none');
+					$("#significant_digits").css('display', 'none');
+					$("#mineral").css('display', 'none');
+					$("#moredata").css('display', 'none');
+				}
+				if(option_value=="get ζ"){
+					$("#parameter").css('display', 'block');
+					$("#input_errors").css('display', 'block');
+					$("#method").css('display', 'block');
+					$("#transformation").css('display', 'none');
+					$("#significant_digits").css('display', 'block');
+					$("#mineral").css('display', 'none');
+					$("#moredata").css('display', 'none');
+				}
+				if(option_value=="ages"){
+					$("#parameter").css('display', 'block');
+					$("#input_errors").css('display', 'block');
+					$("#method").css('display', 'block');
+					$("#transformation").css('display', 'none');
+					$("#significant_digits").css('display', 'block');
+					$("#mineral").css('display', 'none');
+					$("#moredata").css('display', 'none');
+				}
+			});
+			
+       
             {#重新设置按钮-default#}
             $("#reset").click(function () {
                 $("#zetaVal").val("350");
