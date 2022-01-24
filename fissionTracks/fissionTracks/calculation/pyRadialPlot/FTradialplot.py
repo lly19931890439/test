@@ -121,6 +121,8 @@ class FTRadialplot(Radialplot):
         
         self.spines["top"].set_visible(False)
         self.spines["right"].set_visible(False)
+        print(self.x)
+        print(self.y)
             
         im=self.scatter(self.x, self.y, c=Dpars, cmap="YlOrRd", **kwargs)
         if Dpars:

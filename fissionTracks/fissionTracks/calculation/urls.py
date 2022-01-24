@@ -6,5 +6,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index' ),
-    url(r'^caltao$', views.caltao, name='caltao'),
+    url(r'^calzeta$', views.calzeta, name='calzeta'),
+    url(r'^calages$', views.calages, name='calages'),
+    url(r'^image$', views.image, name='image')
 ]

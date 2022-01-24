@@ -19,54 +19,57 @@
     <script src="../static/js/FileSaver.min.js" type="text/javascript"></script>
     <script src="../static/js/v14.js" type="text/javascript"></script>
 
-    <title>数据处理</title>
+    <title>Fission Tracks</title>
     <style></style>
 	
 </head>
 <body>
-{#    导航栏#}
+	<!--头部--->
     <div class="header">
-        <ul class="nav">
+		<span class="logo">Fission Tracks</span>
+        <ul class="nav" style="padding-left:300px;">
             <li class="drop-down">
-                <a id="fission">fission</a>
-            </li>
-            <li class="drop-down">
-				<select id="control_left" onchange="ctr_left(this);" style="width:104px;height:33px;border:none;font-family: Verdana,Arial,sans-serif/*{ffDefault}*/;font-size:16px;">
-					<option id="radial" value="radial plot">radial plot</option>
-					<option id="ked" value="KDE">KDE</option>
+				<select class="header_option" id="control_display" onchange="ctr_dispaly(this);">
+					<option>Please choice mode</option>
 					<option id="get"value="get ζ">get ζ</option>
 					<option id="ages" value="ages">ages</option>
+					<option id="radial" value="radial plot">radial plot</option>
+					<option id="ked" value="KDE">KDE</option>	
 				</select>               
             </li>
-            <li class="drop-down">
-                <a id="option">option</a>
-                <ul class="drop-down-content">
-{#                    <li><a href="#">选项1</a></li>#}
-{#                    <li><a href="#">选项2</a></li>#}
-{#                    <li><a href="#">选项3</a></li>#}
-                </ul>
-            </li>
-            <li><a href="#">help</a></li>
+			<li class="drop-down">
+				<select class="header_option" id="control_method" onchange="ctr_method(this);">
+					<option>Please choice method</option>
+					<option id="EDM" value="EDM">EDM</option>
+					<option id="ICP_zeta" value="ICP (ζ)">ICP (ζ)</option>
+					<option id="ICP_absolute" value="ICP (absolute)">ICP (absolute)</option>
+				</select>
+			</li>
         </ul>
     </div>
 	
-{#中间数据处理#}
+	<!--中间-->
     <div class="content">
-{#        中间左边原数据#}
+        <!--左侧原数据-->
         <div class="left">
-            <div class="left-top" id="left-top">
-{#               参数1 #}
-                <div class="center" id="zetaDiv" style="display: block;">
+			<div id="ss" class="sample-spreadsheets"></div>
+        </div>
+		<!--右侧参数和运行结果-->
+        <div class="right">
+			<!--参数-->
+			<div id="parameter">
+				<p>&nbsp </p>
+				<!--zetaDiv-->
+                <div class="center" id="zetaDiv" style="display: none;">
                     ζ:<input type="text" id="zetaVal" Value="350">
                     <span>±</span>
-                    <span style="display: none;">, err[ζ]:</span>
                     <input type="text" id="zetaErr" Value="10">
                     <span>
                         yr cm<sup>2</sup>
                     </span>
                     <div style="line-height:50%;"><br></div>
                 </div>
-{#               参数2#}
+				<!--standAgeDiv-->
                 <div class="center" id="standAgeDiv" style="display: none;">
                     t: <input type="text" id="standAgeVal" Value="100">
                     <span>±</span>
@@ -74,8 +77,8 @@
                     <span>Ma</span>
                     <div style="line-height:50%;"><br></div>
                 </div>
-{#               参数3#}
-                <div class="center" id="rhoDdiv" style="display: block;">
+				<!--rhoDdiv-->
+                <div class="center" id="rhoDdiv" style="display: none;">
                     ρ<sub>D</sub>:
                     <input type="text" id="rhoDval" Value="2500000">
                     <span>±</span>
@@ -83,7 +86,7 @@
                     <span>1/cm<sup>2</sup></span>
                     <div style="line-height:50%;"><br></div>
                 </div>
-{#               参数4 #}
+				<!--M_zetaDiv-->
                 <div class="center" id="M_zetaDiv" style="display: none;">
                     ζ:<input type="text" id="M_zetaVal" Value="9700">
                     <span>±</span>
@@ -93,44 +96,24 @@
                     </span>
                     <div style="line-height:50%;"><br></div>
                 </div>
-{#               参数5 #}
+				<!--spot_size-->
                 <div class="center" id="spot_size" style="display: none;">
-                    spot size:<input type="text" id="spot_size" Value="35">       
+                    spot size:<input type="text" id="myspot_size" Value="35">       
 					<span>μm</span>
                     <div style="line-height:50%;"><br></div>
                 </div>
-            </div>
-			<div class="left-bottom" id="left-bottom">
-                <div id="ss" class="sample-spreadsheets"></div>
-            </div>
-        </div>
-{#        中间右边结果显示#}
-        <div class="right">
-			<div id="parameter" style="display:none">
-<!--	1		Input errors-->
+				<!--mineral-->
 				<p>&nbsp </p>
-				<div id="input_errors">
-					&nbsp;<span>Input errors:</span>
-					<select>
-					  <option class="translate" id="1se_abs" value="1">1se (abs)</option>
-					  <option class="translate" id="2se_abs" value="2">2se (abs)</option>
-					  <option class="translate" id="1se_rel" value="3">1se (%)</option>
-					  <option class="translate" id="2se_rel" value="4">2se (%)</option>
+				<div class="center" id="mineral" style="display: none;">
+					&nbsp;<span>Mineral:</span>
+					<select id='sel_mineral'>
+					  <option class="translate" id="apatite" value="apatite">apatite</option>
+					  <option class="translate" id="zircon" value="zircon">zircon</option>
 					</select>
 				</div>
-<!--	2		Method-->
+				<!--transformation-->
 				<p>&nbsp </p>
-				<div id="method">
-					&nbsp;<span>Method:</span>
-					<select id="control_method" onchange="ctr_method(this);">
-					  <option class="translate" id="EDM" value="EDM">EDM</option>
-					  <option class="translate" id="ICP_zeta" value="ICP (ζ)">ICP (ζ)</option>
-					  <option class="translate" id="ICP_absolute" value="ICP (absolute)">ICP (absolute)</option>
-					</select>
-				</div>
-<!--    3        Transformation-->
-				<p>&nbsp </p>
-				<div id="transformation">
+				<div class="center" id="transformation" style="display: none;">
 					&nbsp;<span>Transformation:</span>
 					<select>
 					  <option id="radial_log" value="log">logarithmic</option>
@@ -138,56 +121,51 @@
 					  <option id="radial_sqrt" value="sqrt">sqrt</option>
 					</select>
 				</div>
-<!--	4		Significant digits-->
-				<p>&nbsp </p>
-				<div id="significant_digits">
-					&nbsp;<span>Significant digits:</span>
-					<input type="text" id="sig" value="2">
-				</div>
-<!--	5		Mineral-->
-				<p>&nbsp </p>
-				<div id="mineral">
-					&nbsp;<span>Mineral:</span>
-					<select>
-					  <option class="translate" id="apatite" value="apatite">apatite</option>
-					  <option class="translate" id="zircon" value="zircon">zircon</option>
-					</select>
-				</div>
-<!--	6		Moredata-->
+				<!--moredata-->
 				<p>&nbsp;</p>
-				<div id="moredata">
+				<div id="moredata" style="padding-left:50px;display: none;">
 					<table>
 						<tbody>
 						<tr><td>&nbsp;<span id="U238U235"><sup>238</sup>U/<sup>235</sup>U ratio:</span></td>
-							<td><input type="text" id="U238U235" value="137.818"> ±</td>
-							<td><input type="text" id="errU238U235" value="0.0225"></td>
+							<td><input type="text" id="myU238U235" value="137.818" style="width:100px;"> ± </td>
+							<td>&nbsp;<input type="text" id="errU238U235" value="0.0225" style="width:100px;"></td>
 						</tr>
+						
 						<tr><td>&nbsp;<span id="LambdaU238"><sup>238</sup>U decay constant:</span></td>
-							<td><input type="text" id="LambdaU238" value="0.000155125"> ±</td>
-							<td><input type="text" id="errLambdaU238" value="8.3e-8">Myr<sup>-1</sup></td>
+							<td><input type="text" id="myLambdaU238" value="0.000155125" style="width:100px;"> ± </td>
+							<td>&nbsp;<input type="text" id="errLambdaU238" value="8.3e-8" style="width:100px;">Myr<sup>-1</sup></td>
 						</tr>
+						
 						<tr><td>&nbsp;<span id="LambdaFission"><sup>238</sup>U fission decay constant:</span></td>
-							<td><input type="text" id="LambdaFission" value="8.5e-11"> ±</td>
-							<td><input type="text" id="errLambdaFission" value="1e-12">Myr<sup>-1</sup></td>
+							<td><input type="text" id="myLambdaFission" value="8.5e-11" style="width:100px;"> ± </td>
+							<td>&nbsp;<input type="text" id="errLambdaFission" value="1e-12" style="width:100px;">Myr<sup>-1</sup></td>
 						</tr>
+						
 						<tr><td>&nbsp;<span id="etchfact">efficiency factor:</span></td>
-							<td><input type="text" id="etchfact" value="0.93"></td><td></td>
+							<td><input type="text" id="myetchfact" value="0.93" style="width:100px;"></td><td></td>
 						</tr>
+						
 						<tr><td>&nbsp;<span id="tracklength">equivalent isotropic track length:</span></td>
-							<td><input type="text" id="tracklength" value="16.2"></td><td></td>
+							<td><input type="text" id="mytracklength" value="16.2" style="width:100px;"></td><td></td>
 						</tr>
 						<tr><td>&nbsp;<span id="mindens">mineral density:</span></td>
-							<td><input type="text" id="mindens" value="3.22"></td><td></td>
+							<td><input type="text" id="mymindens" value="3.22" style="width:100px;"></td><td></td>
 						</tr>
 						</tbody>
 					</table>
 				</div>
             </div>
-            <div id="output" class="result"></div>
-        </div>
+			<!--运行结果-->
+			<div id="div_rightsheet">
+				<div id="rightsheet" class="sample-spreadsheets" style="display: none"></div>
+			</div>
+			<div id="img_diaplay">
+				<img id="radialImg" src="#" style="display: none"/>
+			</div>
+			</div>
     </div>
 	
-{#底部功能栏#}
+	<!--尾部-->
     <div class="footer">
         <ul class="nav">
             <li><a id="reset">default</a></li>
@@ -198,329 +176,14 @@
             <li><a id="plot">Plot</a></li>
         </ul>
     </div>
-    <script src="../static/js/spread-table.js" type="text/javascript"></script>
-    <script type="text/javascript">
-		//自己测试的函数 spread.toJSON())可把表格数据转为json格式
-		function cal(){
-			const xhttp = new XMLHttpRequest();	
-			var data_table=JSON.parse(JSON.stringify(spread.toJSON())).sheets.Sheet1.data.dataTable;
-			xhttp.onload = function(){
-				var testJson = JSON.stringify(spread.toJSON());
-				const obj = JSON.parse(this.responseText) ;  
-            }
-			xhttp.open("POST", "caltao");
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(JSON.stringify(spread.toJSON()));
-			console.log(data_table);
-		}
-		document.getElementById('run').onclick = cal;
-		
-		//后台上传数据的过程
-		function calculate() {
-            const xhttp = new XMLHttpRequest();
-            var data={
-                'zetaVal': document.getElementById('zetaVal').value,
-                'zetaErr': document.getElementById('zetaErr').value,
-				'standAgeVal': document.getElementById('standAgeVal').value,
-				'standAgeErr': document.getElementById('standAgeErr').value,
-				'rhoDval': document.getElementById('rhoDval').value,
-				'rhoDerr': document.getElementById('rhoDerr').value,
-				'M_zetaVal': document.getElementById('M_zetaVal').value,
-                'M_zetaErr': document.getElementById('M_zetaErr').value,
-				'spot_size': document.getElementById('spot_size').value,
-				'1se_abs': document.getElementById('1se_abs').value,
-				'2se_abs': document.getElementById('2se_abs').value,
-				'1se_rel': document.getElementById('1se_rel').value,
-				'2se_rel': document.getElementById('2se_rel').value,
-                'EDM': document.getElementById('EDM').value,		
-				'ICP_zeta': document.getElementById('ICP_zeta').value,
-				'ICP_absolute': document.getElementById('ICP_absolute').value,
-				'radial_log': document.getElementById('radial_log').value,
-				'radial_lin': document.getElementById('radial_lin').value,			
-				'radial_sqrt': document.getElementById('radial_sqrt').value,
-				'sig': document.getElementById('sig').value,
-				'apatite': document.getElementById('apatite').value,
-				'zircon': document.getElementById('zircon').value,		
-				'U238U235': document.getElementById('U238U235').value,
-				'errU238U235': document.getElementById('errU238U235').value,
-				'LambdaU238': document.getElementById('LambdaU238').value,
-				'errLambdaU238': document.getElementById('errLambdaU238').value,		
-				'LambdaFission': document.getElementById('LambdaFission').value,
-				'errLambdaFission': document.getElementById('errLambdaFission').value,
-				'etchfact': document.getElementById('etchfact').value,
-				'tracklength': document.getElementById('tracklength').value,
-				'mindens': document.getElementById('mindens').value,
-            }
-            xhttp.onload = function(){
-                const obj = JSON.parse(this.responseText) ;
-                console.log( obj );
-                //document.getElementById('tao').value = obj['zetaVal'] + obj['zetaErr'];
-            }
-            xhttp.open("POST", "caltao");
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(JSON.stringify(data));
-        }
-      
-        //document.getElementById('run').onclick = calculate;
-		
-		// 点击run运行之后上传图片
-        function addElementImg(obj) {
-            {#获取div元素#}
-            var div = document.getElementById(obj);
-            {#创建img元素#}
-            var img = document.createElement("img");
-            {#为img元素设置属性#}
-            img.setAttribute("id", "radialImg");
-            img.src = "../static/img/plot.png";
-            {#将新建的img元素加到div当中#}
-            div.appendChild(img);
-        }
-		
-		// 根据radial plot  KDE  get ζ  ages 按钮来控制左上角参数的显示
-		function ctr_left(obj){
-			var value=$(obj).val();
-			if(value=="radial plot"){
-				$("#parameter").css('display', 'none');
-				$("#zetaDiv").css('display', 'block');
-                $("#standAgeDiv").css('display', 'none');
-			}
-			if(value=="KDE"){
-				$("#parameter").css('display', 'none');
-				$("#zetaDiv").css('display', 'block');
-                $("#standAgeDiv").css('display', 'none');
-			}
-			if(value=="get ζ"){
-				$("#parameter").css('display', 'none');
-				$("#zetaDiv").css('display', 'none');
-                $("#standAgeDiv").css('display', 'block');
-			}
-			if(value=="ages"){
-				$("#parameter").css('display', 'none');
-				$("#zetaDiv").css('display', 'block');
-                $("#standAgeDiv").css('display', 'none');
-			}
-		}
-		
-		//根据method的选项不同控制左上角参数
-		function ctr_method(obj){
-			var myselect=document.getElementById("control_left");
-			var index=myselect.selectedIndex; 
-			var option_value=myselect.options[index].value;
-			var method_val=$(obj).val();
-			
-			//如果左边选项停留在radial plot 根据method控制左上角参数
-			if(option_value=="radial plot"){
-				if(method_val=="EDM"){
-					$("#zetaDiv").css('display', 'block');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'block');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'none');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (ζ)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'block');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (absolute)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'block');
-					$("#moredata").css('display', 'block');
-				}
-			}
-			
-			//如果左边选项停留在KDE 根据method控制左上角参数
-			if(option_value=="KDE"){
-				if(method_val=="EDM"){
-					$("#zetaDiv").css('display', 'block');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'block');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'none');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (ζ)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'block');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (absolute)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'block');
-					$("#moredata").css('display', 'block');
-				}
-			}
-			
-			//如果左边选项停留在get ζ 根据method控制左上角参数
-			if(option_value=="get ζ"){
-				if(method_val=="EDM"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'block');
-					$("#rhoDdiv").css('display', 'block');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'none');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (ζ)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'block');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (absolute)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'block');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'block');
-					$("#moredata").css('display', 'block');
-				}
-			}
-			
-			//如果左边选项停留在ages 根据method控制左上角参数
-			if(option_value=="ages"){
-				if(method_val=="EDM"){
-					$("#zetaDiv").css('display', 'block');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'block');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'none');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (ζ)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'block');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(method_val=="ICP (absolute)"){
-					$("#zetaDiv").css('display', 'none');
-					$("#standAgeDiv").css('display', 'none');
-					$("#rhoDdiv").css('display', 'none');
-					$("#M_zetaDiv").css('display', 'none');
-					$("#spot_size").css('display', 'block');
-					
-					//控制右侧参数
-					$("#mineral").css('display', 'block');
-					$("#moredata").css('display', 'block');
-				}
-			}	
-		}
-		
-		//点击option控制右侧参数
-		$(document).ready(function() {
-			$("#option").click(function () {
-				var myselect=document.getElementById("control_left");
-				var index=myselect.selectedIndex ; 
-				var option_value=myselect.options[index].value;
-
-				if(option_value=="radial plot"){
-					$("#parameter").css('display', 'block');
-					$("#input_errors").css('display', 'block');
-					$("#method").css('display', 'block');
-					$("#transformation").css('display', 'block');
-					$("#significant_digits").css('display', 'none');
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-					
-				}
-				if(option_value=="KDE"){
-					$("#parameter").css('display', 'block');
-					$("#input_errors").css('display', 'block');
-					$("#method").css('display', 'block');
-					$("#transformation").css('display', 'none');
-					$("#significant_digits").css('display', 'none');
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(option_value=="get ζ"){
-					$("#parameter").css('display', 'block');
-					$("#input_errors").css('display', 'block');
-					$("#method").css('display', 'block');
-					$("#transformation").css('display', 'none');
-					$("#significant_digits").css('display', 'block');
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-				if(option_value=="ages"){
-					$("#parameter").css('display', 'block');
-					$("#input_errors").css('display', 'block');
-					$("#method").css('display', 'block');
-					$("#transformation").css('display', 'none');
-					$("#significant_digits").css('display', 'block');
-					$("#mineral").css('display', 'none');
-					$("#moredata").css('display', 'none');
-				}
-			});
-			
-       
-            //重新设置按钮-default
-            $("#reset").click(function () {
-                $("#zetaVal").val("350");
-                $("#zetaErr").val("10");
-                $("#standAgeVal").val("100");
-                $("#standAgeErr").val("1");
-                $("#rhoDval").val("2500000");
-                $("#rhoDerr").val("10000");
-            });
-            //清空数据按钮-clear
-            $('#clear').click(function () {
-                sheet.clear(0, 0, sheet.getRowCount(), sheet.getColumnCount(), GC.Spread.Sheets.SheetArea.viewport, GC.Spread.Sheets.StorageType.data);
-            });
-            $('#plot').click(function () {
-                addElementImg("output");
-            });
-        });
-    </script>
+	
+    <script src="../static/js/spread-left_table.js" type="text/javascript"></script>
+	<script src="../static/js/spread-right_table.js" type="text/javascript"></script>
+	<script src="../static/js/getzeta.js" type="text/javascript"></script>
+	<script src="../static/js/getages.js" type="text/javascript"></script>
+	<script src="../static/js/radialplot.js" type="text/javascript"></script>
+	<script src="../static/js/operation.js" type="text/javascript"></script>
+	<script src="../static/js/ctr_parameter.js" type="text/javascript"></script>
+	<script type="text/javascript"></script>
 </body>
 </html>

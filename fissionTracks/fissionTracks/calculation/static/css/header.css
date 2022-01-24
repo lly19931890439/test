@@ -13,6 +13,17 @@
     z-index: 10;
 }
 
+.logo{
+	line-height: 30px;
+    display: inline-block;
+    width: 300px;
+    text-align: center;
+    font-size: 26px;
+    margin: 0px;
+    padding: 0px;
+	font-family: 微软雅黑;
+}
+
 .nav{
     margin: auto;
     text-align: center;
@@ -59,4 +70,12 @@ ul a{
 }
 .nav .drop-down:hover .drop-down-content{
     left: 0;
+}
+
+.header_option{
+	width:198px;
+	height:34px;
+	border:none;
+	font-family: Verdana,Arial,sans-serif/*{ffDefault}*/;
+	font-size:16px;
 }

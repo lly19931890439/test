@@ -42,7 +42,7 @@ class ZAxis(object):
         # Add ticks
         self.ticks()
         self.labels()
-        self.set_zlabel("Estimates a.u")
+        self.set_zlabel("Age Estimates (Myr)")
         self.add_values_indicators()
 
     def _get_radial_ticks_z(self):
@@ -175,6 +175,9 @@ class Radialplot(Axes):
         return x, y
 
     def radialplot(self, estimates, standard_errors, transform="linear", **kwargs):
+        # print('=============estimates')
+        # print(estimates)
+        # print(standard_errors)
         self._z = np.array(estimates)
         self._sez = np.array(standard_errors)
         self.transform = transform
@@ -191,6 +194,15 @@ class Radialplot(Axes):
         
         self.spines["top"].set_visible(False)
         self.spines["right"].set_visible(False)
+
+        # print('========xy')
+        # print(self.x)
+        # print(self.y)
+
+        # print('=============z')
+        # print(self.z)
+        # print(self.sez)
+
         im = self.scatter(self.x, self.y, **kwargs)
         self._add_sigma_lines()
         self._add_shaded_area()
@@ -201,6 +213,7 @@ class Radialplot(Axes):
         
         # Apply some default labels:
         self.set_ylabel("Standardised estimate y")
+        self.set_xlabel(r'$t / \sigma$')
 
     @property
     def z(self):
@@ -283,7 +296,6 @@ class Radialplot(Axes):
 register_projection(Radialplot)
 
 def general_radial(file=None, estimates=None, standard_errors=None, transform="linear", **kwargs):
-
     fig = plt.figure(figsize=(6,6))
 
     if not "color" in kwargs.keys():
@@ -297,5 +309,5 @@ def general_radial(file=None, estimates=None, standard_errors=None, transform="l
 
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8], projection="radialplot")
     ax.radialplot(estimates, standard_errors, transform=transform, **kwargs)
-    plt.show()
+    plt.savefig(r'C:\Users\lly\Desktop\now\fissionTracks\fissionTracks\calculation\static\img\general.png')
     return ax
